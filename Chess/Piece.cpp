@@ -1,5 +1,4 @@
 #include "Piece.h"
-#include "Board.h"
 #include "HelperFunctions.h"
 
 using namespace std;
