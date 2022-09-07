@@ -18,8 +18,8 @@ public:
 
 	//Piece Constructors
 	Piece();
-	Piece(int isWhite, int x, int y);
-	Piece(int isWhite, std::pair<int, int> position);
+	Piece(int color, int x, int y);
+	Piece(int color, std::pair<int, int> position);
 
 	//Piece Public Methods
 	virtual bool isValidMove(std::list<Piece*> board, std::pair<int, int> endPosition) = 0;//checks if the endPosition would be a valid move given the board; Assumes that endPosition is within the board and isn't the same as the current position
