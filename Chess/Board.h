@@ -1,6 +1,5 @@
 #pragma once
 #include "Piece.h"
-#include <list>
 
 class Board {
 
