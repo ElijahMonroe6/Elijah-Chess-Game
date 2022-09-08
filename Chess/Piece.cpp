@@ -3,15 +3,17 @@
 
 using namespace std;
 
-Piece::Piece() : color(1), position(-1, -1) {};
+Piece::Piece() : color(0), position(-1, -1) {};
 Piece::Piece(int color, int x, int y) : color(color), position(x, y) {};
 Piece::Piece(int color, pair<int, int> position) : color(color), position(position) {};
 
-Piece* Piece::createPiece(PieceType pieceType) {
+unordered_map<string, PieceType> stringToPieceType = { {"king", PieceType::KING}, {"queen", PieceType::QUEEN}, {"bishop", PieceType::BISHOP}, {"knight", PieceType::KNIGHT}, {"rook", PieceType::ROOK}, {"pawn", PieceType::PAWN}};
+
+Piece* Piece::createPiece(string pieceType) {
 
 	Piece* retVal;
 
-	switch (pieceType) {
+	switch (stringToPieceType[pieceType]) {
 
 	case PieceType::KING:
 		retVal = new King();
@@ -47,11 +49,11 @@ Piece* Piece::createPiece(PieceType pieceType) {
 
 };
 
-Piece* Piece::createPiece(PieceType pieceType, int color, int x, int y) {
+Piece* Piece::createPiece(string pieceType, int color, int x, int y) {
 
 	Piece* retVal;
 
-	switch (pieceType) {
+	switch (stringToPieceType[pieceType]) {
 
 	case PieceType::KING:
 		retVal = new King(color, x, y);
@@ -87,11 +89,11 @@ Piece* Piece::createPiece(PieceType pieceType, int color, int x, int y) {
 
 };
 
-Piece* Piece::createPiece(PieceType pieceType, int color, pair<int, int> position) {
+Piece* Piece::createPiece(string pieceType, int color, pair<int, int> position) {
 
 	Piece* retVal;
 
-	switch (pieceType) {
+	switch (stringToPieceType[pieceType]) {
 
 	case PieceType::KING:
 		retVal = new King(color, position);
@@ -129,14 +131,14 @@ Piece* Piece::createPiece(PieceType pieceType, int color, pair<int, int> positio
 
 King::King() : Piece(), hasMovedPosition(false) {};
 King::King(int color, int x, int y) : Piece(color, x, y), hasMovedPosition(false) {};
-King::King(int color, std::pair<int, int> position) : Piece(color, position), hasMovedPosition(false) {};
+King::King(int color, pair<int, int> position) : Piece(color, position), hasMovedPosition(false) {};
 
 bool King::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
 	pair<int, int> curPosition = this->getPosition();
-	pair<int, int> deltaToEnd = HelperFunctions::delta(curPosition, endPosition);
+	pair<int, int> distToEnd = HelperFunctions::distance(curPosition, endPosition);
 
-	if (abs(deltaToEnd.first) > 1 || abs(deltaToEnd.second) > 1) return false;
+	if (distToEnd.first > 1 || distToEnd.second > 1) return false;
 
 	for (Piece* piece : board) {
 
@@ -150,7 +152,7 @@ bool King::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
 Queen::Queen() : Piece() {};
 Queen::Queen(int color, int x, int y) : Piece(color, x, y) {};
-Queen::Queen(int color, std::pair<int, int> position) : Piece(color, position) {};
+Queen::Queen(int color, pair<int, int> position) : Piece(color, position) {};
 
 bool Queen::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
@@ -180,7 +182,7 @@ bool Queen::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
 Bishop::Bishop() : Piece() {};
 Bishop::Bishop(int color, int x, int y) : Piece(color, x, y) {};
-Bishop::Bishop(int color, std::pair<int, int> position) : Piece(color, position) {};
+Bishop::Bishop(int color, pair<int, int> position) : Piece(color, position) {};
 
 bool Bishop::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
@@ -210,7 +212,7 @@ bool Bishop::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
 Knight::Knight() : Piece() {};
 Knight::Knight(int color, int x, int y) : Piece(color, x, y) {};
-Knight::Knight(int color, std::pair<int, int> position) : Piece(color, position) {};
+Knight::Knight(int color, pair<int, int> position) : Piece(color, position) {};
 
 bool Knight::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
@@ -237,7 +239,7 @@ bool Knight::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
 Rook::Rook() : Piece(), hasMovedPosition(false) {};
 Rook::Rook(int color, int x, int y) : Piece(color, x, y), hasMovedPosition(false) {};
-Rook::Rook(int color, std::pair<int, int> position) : Piece(color, position), hasMovedPosition(false) {};
+Rook::Rook(int color, pair<int, int> position) : Piece(color, position), hasMovedPosition(false) {};
 
 bool Rook::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
@@ -267,7 +269,7 @@ bool Rook::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 
 Pawn::Pawn() : Piece(), hasMovedPosition(false) {};
 Pawn::Pawn(int color, int x, int y) : Piece(color, x, y), hasMovedPosition(false) {};
-Pawn::Pawn(int color, std::pair<int, int> position) : Piece(color, position), hasMovedPosition(false) {};
+Pawn::Pawn(int color, pair<int, int> position) : Piece(color, position), hasMovedPosition(false) {};
 
 bool Pawn::isValidMove(list<Piece*> board, pair<int, int> endPosition) {
 

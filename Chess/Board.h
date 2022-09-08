@@ -10,11 +10,10 @@ class Board {
 	void makeBoard(std::string constructor);
 
 public:
-
-	const static std::string DEFAULT_BOARD;//default 8x8 chess setup;each piece is listed in this format: owner;x;y and separated by commas
+	const static std::string DEFAULT_BOARD;//default 8x8 chess setup;each piece is listed in this format: ;color,x,y;
 
 	Board();//default board size and construction
-	//Board(int width, int height, std::string constructor);//TO BE IMPLEMENTED; non-standard board with specified size and contruction
+	Board(int width, int height, std::string constructor);//TO BE IMPLEMENTED; non-standard board with specified size and contruction
 	void doMove(std::pair<int,int> start, std::pair<int,int> end);//changes location of piece at start to end location
 	~Board();
 

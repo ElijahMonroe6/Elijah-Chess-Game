@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <unordered_map>
 
 enum class PieceType {KING,QUEEN,BISHOP,KNIGHT,ROOK,PAWN};
 
@@ -8,6 +9,9 @@ class Piece {
 	//Piece Private Members
 	int color;//should be 1 for white, -1 for black; also used for direction of movement of pawns
 	std::pair<int, int> position;
+
+	//Piece Private Static Members
+	static std::unordered_map<std::string, PieceType> stringToPieceType;
 
 public:
 	//Piece Getters and Setters
@@ -22,12 +26,16 @@ public:
 	Piece(int color, std::pair<int, int> position);
 
 	//Piece Public Methods
-	virtual bool isValidMove(std::list<Piece*> board, std::pair<int, int> endPosition) = 0;//checks if the endPosition would be a valid move given the board; Assumes that endPosition is within the board and isn't the same as the current position
+	//checks if the endPosition would be a valid move given the board; Assumes that endPosition is within the board and isn't the same as the current position
+	virtual bool isValidMove(std::list<Piece*> board, std::pair<int, int> endPosition) = 0;
 	
 	//Piece Public Static Class Methods
-	static Piece* createPiece(PieceType pieceType);//Use this to construct pieces so that there is no conversion issues
-	static Piece* createPiece(PieceType pieceType, int color, int x, int y);//Use this to construct pieces so that there is no conversion issues; allows you to set color of piece and position
-	static Piece* createPiece(PieceType pieceType, int color, std::pair<int, int> position);//Use this to construct pieces so that there is no conversion issues; allows you to set color of piece and position
+	//Returns a pointer to a piece of the type specified by pieceType
+	static Piece* createPiece(std::string pieceType);//use only lowercase characters for pieceType
+	//Returns a pointer to a piece of the type specified by pieceType, allows you to set color of piece and position
+	static Piece* createPiece(std::string pieceType, int color, int x, int y);//use only lowercase characters for pieceType
+	//Use this to construct pieces so that there is no conversion issues; allows you to set color of piece and position; use only lowercase characters
+	static Piece* createPiece(std::string pieceType, int color, std::pair<int, int> position);
 
 };
 
